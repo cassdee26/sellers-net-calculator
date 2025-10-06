@@ -1,108 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Sale Proceeds Calculator | Brooke, Hancock & Ohio County WV</title>
-  <meta name="description" content="Estimate your home sale proceeds in Brooke, Hancock, and Ohio County, WV. Calculate commission, transfer tax, fees, and net profit instantly.">
-  <meta name="keywords" content="home sale calculator, seller net proceeds, real estate calculator WV, Brooke County, Hancock County, Ohio County, West Virginia real estate, transfer tax calculator, closing cost estimator, WV home sale tax, real estate commission calculator">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: auto;
-      padding: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td {
-      padding: 6px 0;
-    }
-    td:last-child {
-      text-align: right;
-    }
-    input {
-      width: 100%;
-      padding: 6px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>West Virginia Home Sale Proceeds Calculator</title>
+<meta name="description" content="Estimate your home sale proceeds in Brooke, Hancock, and Ohio County, WV. Calculate commission, transfer tax, fees, and net profit instantly.">
+<meta name="keywords" content="home sale calculator, seller net proceeds, real estate calculator WV, Brooke County, Hancock County, Ohio County, West Virginia real estate, transfer tax calculator, closing cost estimator, WV home sale tax, real estate commission calculator">
+
+<style>
+body {
+  background-color: #f7f7f7;
+  padding: 0;
+  margin: 0;
+  font-family: 'TT Commons Pro', Verdana, Tahoma, sans-serif;
+}
+
+/* main container */
+#net-calculator-app {
+  max-width: 550px;
+  margin: 20px auto;
+  padding: 25px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* mobile adjustments */
+@media (max-width: 600px) {
+  #net-calculator-app {font-size: 0.5em !important; padding:8px !important; width:95%!important; box-shadow:none!important;}
+  .input-section label {width:100%!important;display:block!important;margin-right:0!important;text-align:left!important;}
+  .input-section input[type="number"], .input-section input[type="text"] {width:98%!important;height:30px!important;font-size:1.2em!important;padding:5px!important;display:block!important;text-align:left!important;}
+  h3,h4{font-size:1.5em!important;word-break:break-word;}
+  button{font-size:1.2em!important;padding:10px!important;}
+  #county-select{padding:8px!important;}
+}
+</style>
 </head>
+
 <body>
-  <h2>Home Sale Proceeds Calculator</h2>
+<div id="net-calculator-app">
 
-  <label>Desired Selling Price ($):</label>
-  <input type="number" id="salePrice" value="200000">
+  <!-- Header Image -->
+  <img src="https://www.dropbox.com/scl/fi/md8z1gznzjefzjn755tpz/sale-calculator.png?rlkey=eczkt35hir1tkszpqe7aogjcc&st=anopqg9c&raw=1" 
+       alt="Home Sale Proceeds Calculator" 
+       style="width:100%; border-radius:8px; margin-bottom:20px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 
-  <label>Remaining Mortgage Owed ($):</label>
-  <input type="number" id="mortgage" value="0">
+  <h3 style="text-align:center; color:#E11B22; margin-top:0; font-weight:700;">
+    💰 West Virginia Home Sale Proceeds Calculator
+  </h3>
+  <p style="text-align:center; font-size:0.95em; color:#555; margin-bottom:20px;">
+    Select your county and enter your details, then click 'CALCULATE'.
+  </p>
 
-  <label>Repairs / Improvements ($):</label>
-  <input type="number" id="repairs" value="0">
-
-  <label>Attorney / Title / Other Fees ($):</label>
-  <input type="number" id="closingFees" value="0">
-
-  <label>Commission Rate (%):</label>
-  <input type="number" id="commissionRate" value="6">
-
-  <button onclick="
-    (function(){
-      function format(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
-      var price = parseFloat(document.getElementById('salePrice').value)||0;
-      var mortgage = parseFloat(document.getElementById('mortgage').value)||0;
-      var repairs = parseFloat(document.getElementById('repairs').value)||0;
-      var fees = parseFloat(document.getElementById('closingFees').value)||0;
-      var commissionRate = parseFloat(document.getElementById('commissionRate').value)||0;
-
-      var commission = price * (commissionRate / 100);
-      var transferTax = Math.ceil(price / 500) * 1.65; // Brooke/Hancock County rate
-      var ahfFee = 20; // WV Affordable Housing Fund Fee
-      var totalTaxes = transferTax + ahfFee;
-      var totalClosing = commission + repairs + fees + totalTaxes;
-      var netProceeds = price - mortgage - totalClosing;
-
-      document.getElementById('resPrice').innerText = format(price);
-      document.getElementById('resCommission').innerText = format(commission);
-      document.getElementById('resTransfer').innerText = format(transferTax);
-      document.getElementById('resAHF').innerText = format(ahfFee);
-      document.getElementById('resRepairs').innerText = format(repairs);
-      document.getElementById('resFees').innerText = format(fees);
-      document.getElementById('resTaxes').innerText = format(totalTaxes);
-      document.getElementById('resClosing').innerText = format(totalClosing);
-      document.getElementById('resNet').innerText = format(netProceeds);
-      document.getElementById('results').style.display = 'block';
-    })();
-  ">Calculate</button>
-
-  <div id="results" style="display:none; margin-top: 20px;">
-    <h3>Estimated Proceeds Breakdown</h3>
-    <table>
-      <tr><td>Estimated Sale Price:</td><td>$<span id="resPrice">0</span></td></tr>
-      <tr><td>Commission:</td><td>$<span id="resCommission">0</span></td></tr>
-      <tr><td>WV Transfer Tax (Brooke/Hancock):</td><td>$<span id="resTransfer">0</span></td></tr>
-      <tr><td>Affordable Housing Fund Fee:</td><td>$<span id="resAHF">0</span></td></tr>
-      <tr><td>Repairs / Improvements:</td><td>$<span id="resRepairs">0</span></td></tr>
-      <tr><td>Attorney / Title / Other Fees:</td><td>$<span id="resFees">0</span></td></tr>
-      <tr><td><strong>Total Transfer / Tax Costs:</strong></td><td><strong>$<span id="resTaxes">0</span></strong></td></tr>
-      <tr><td><strong>Total Closing Costs:</strong></td><td><strong>$<span id="resClosing">0</span></strong></td></tr>
-      <tr><td><strong>Estimated Net Proceeds:</strong></td><td style='color:green; font-weight:bold;'>$<span id="resNet">0</span></td></tr>
-    </table>
+  <div style="margin-bottom:20px;">
+    <label for="county-select" style="display:block; margin-bottom:5px; font-weight:600; color:#003da5;">Select County:</label>
+    <select id="county-select" onchange="calculateNet()" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; background:#f5f5f5;">
+      <option value="Ohio">Ohio County ($2.20 / $500)</option>
+      <option value="Brooke">Brooke County ($1.65 / $500)</option>
+      <option value="Hancock" selected>Hancock County ($1.65 / $500)</option>
+    </select>
   </div>
 
+  <div class="input-section" style="border-top:1px solid #eee; padding-top:15px;">
+    <h4 style="color:#003da5; margin-bottom:15px; border-bottom:1px dashed #eee; padding-bottom:5px;">Your Estimated Values</h4>
+
+    <div style="margin-bottom:10px;">
+      <label for="sale-price" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Desired Selling Price ($):</label>
+      <input type="number" id="sale-price" value="200000" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label for="mortgage-payoff" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Remaining Mortgage Owed ($):</label>
+      <input type="number" id="mortgage-payoff" value="0" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label for="commission-percent" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Estimated Commission (%):</label>
+      <input type="number" id="commission-percent" value="6" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label for="repairs" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Repairs/Improvements ($):</label>
+      <input type="number" id="repairs" value="0" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label for="attorney-fees" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Attorney/Title Company Fees ($):</label>
+      <input type="number" id="attorney-fees" value="2500" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <label for="prorated-taxes" style="display:inline-block; width:60%; margin-right:5%; font-weight:600;">Estimated Prorated Property Taxes ($):</label>
+      <input type="number" id="prorated-taxes" value="500" style="width:30%; padding:8px; border:1px solid #ccc; border-radius:5px; text-align:right;">
+    </div>
+  </div>
+
+  <button onclick="calculateNet()" style="display:block; width:100%; padding:15px; margin-top:20px; background:#E11B22; color:#fff; border:none; border-radius:8px; font-size:1.1em; font-weight:700; cursor:pointer;">
+    ✅ CALCULATE YOUR NET PROCEEDS
+  </button>
+
+  <h4 style="margin-top:25px; border-bottom:1px solid #ccc; padding-bottom:5px; color:#E11B22;">Your Estimated Proceeds Summary</h4>
+
+  <div style="font-size:1em; margin-bottom:15px;">
+    <div style="display:flex; justify-content:space-between; padding:8px 0;">
+      <span style="font-weight:600;">Sale Price:</span>
+      <span id="result-sale-price" style="font-weight:700;">$200,000.00</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; padding:8px 0; border-top:1px dashed #ccc;">
+      <span style="font-weight:600;">(-) Total Estimated Costs:</span>
+      <span id="result-total-costs" style="font-weight:700; color:#E11B22;">($15,900.00)</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; padding:12px 10px; font-size:1.2em; background:#003da5; color:#fff; border-radius:6px; margin-top:5px;">
+      <span style="font-weight:700;">NET PROCEEDS:</span>
+      <span id="result-net-proceeds" style="font-weight:700;">$184,100.00</span>
+    </div>
+  </div>
+
+  <h4 style="margin-top:20px; border-bottom:1px solid #ccc; padding-bottom:5px; color:#003da5;">Detailed Cost Breakdown</h4>
+  <div style="font-size:0.9em; line-height:1.6;">
+    <div><span style="display:inline-block; width:70%;">Remaining Mortgage Owed:</span><span id="breakdown-payoff" style="display:inline-block; width:28%; text-align:right;">$0.00</span></div>
+    <div><span style="display:inline-block; width:70%;">Estimated Commission (<span id="commission-rate-display">6%</span>):</span><span id="breakdown-commission" style="display:inline-block; width:28%; text-align:right;">$12,000.00</span></div>
+    <div><span style="display:inline-block; width:70%;">Repairs/Improvements:</span><span id="breakdown-repairs" style="display:inline-block; width:28%; text-align:right;">$0.00</span></div>
+    <div><span style="display:inline-block; width:70%;">Attorney/Title Fees:</span><span id="breakdown-attorney" style="display:inline-block; width:28%; text-align:right;">$2,500.00</span></div>
+    <div><span style="display:inline-block; width:70%;">Estimated Prorated Property Taxes:</span><span id="breakdown-taxes" style="display:inline-block; width:28%; text-align:right;">$500.00</span></div>
+    <div style="font-weight:600; border-top:1px dashed #eee; margin-top:5px;">
+      <span style="display:inline-block; width:70%;">Total WV Transfer Tax & Fees (<span id="tax-rate-display">0.33%</span>):</span>
+      <span id="breakdown-transfer-tax-total" style="display:inline-block; width:28%; text-align:right;">$680.00</span>
+    </div>
+    <div style="font-size:0.85em; color:#777; margin-top:10px;">
+      *Transfer Tax includes State Excise Tax, County Tax, and $20 Affordable Housing Fee.
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
   <p style="font-size:10pt; color:#555; margin-top:30px; line-height:1.4;">
-    <strong>DISCLAIMER:</strong> This calculator is provided for illustrative and educational purposes only. 
-    All figures, including net proceeds, commissions, taxes, and fees (including transfer tax), are ESTIMATES ONLY 
-    and are subject to change. They are not a guarantee of actual closing costs or final proceeds. Actual figures 
-    must be confirmed by a Title Company or licensed Attorney. This information does not constitute legal, tax, 
+    <strong>DISCLAIMER:</strong> This calculator is provided for illustrative and educational purposes only.
+    All figures, including net proceeds, commissions, taxes, and fees (including transfer tax), are ESTIMATES ONLY
+    and are subject to change. They are not a guarantee of actual closing costs or final proceeds. Actual figures
+    must be confirmed by a Title Company or licensed Attorney. This information does not constitute legal, tax,
     or financial advice. Always consult with a qualified professional.
   </p>
+</div>
+
+<script>
+const COUNTY_TAX_RATES = {"Ohio":0.0044,"Brooke":0.0033,"Hancock":0.0033};
+const AFFORDABLE_HOUSING_FEE = 20;
+
+const formatCurrency = (amount) => (isNaN(amount)?0:amount).toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2});
+
+function calculateNet(){
+  const salePrice=parseFloat(document.getElementById('sale-price').value)||0;
+  const mortgagePayoff=parseFloat(document.getElementById('mortgage-payoff').value)||0;
+  const repairs=parseFloat(document.getElementById('repairs').value)||0;
+  const attorneyFees=parseFloat(document.getElementById('attorney-fees').value)||0;
+  const proratedTaxes=parseFloat(document.getElementById('prorated-taxes').value)||0;
+  const commissionPercent=parseFloat(document.getElementById('commission-percent').value)||0;
+  const selectedCounty=document.getElementById('county-select').value;
+
+  const commissionCost=salePrice*(commissionPercent/100);
+  const countyRate=COUNTY_TAX_RATES[selectedCounty];
+  const transferTax=salePrice*countyRate;
+  const totalTransferTaxFees=transferTax+AFFORDABLE_HOUSING_FEE;
+  const totalCosts=mortgagePayoff+repairs+attorneyFees+proratedTaxes+commissionCost+totalTransferTaxFees;
+  const netProceeds=salePrice-totalCosts;
+
+  document.getElementById('result-sale-price').textContent=formatCurrency(salePrice);
+  document.getElementById('result-total-costs').textContent=`(${formatCurrency(totalCosts)})`;
+  document.getElementById('result-net-proceeds').textContent=formatCurrency(netProceeds);
+  document.getElementById('breakdown-payoff').textContent=formatCurrency(mortgagePayoff);
+  document.getElementById('breakdown-repairs').textContent=formatCurrency(repairs);
+  document.getElementById('breakdown-attorney').textContent=formatCurrency(attorneyFees);
+  document.getElementById('breakdown-taxes').textContent=formatCurrency(proratedTaxes);
+  document.getElementById('breakdown-commission').textContent=formatCurrency(commissionCost);
+  document.getElementById('commission-rate-display').textContent=`${commissionPercent}%`;
+  document.getElementById('breakdown-transfer-tax-total').textContent=formatCurrency(totalTransferTaxFees);
+  document.getElementById('tax-rate-display').textContent=`${(countyRate*100).toFixed(2)}%`;
+}
+window.onload=calculateNet;
+</script>
 </body>
 </html>
